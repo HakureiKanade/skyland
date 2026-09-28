@@ -336,14 +336,14 @@ def do_sign(cred_resp):
         resp = requests.post(sign_url, headers=get_sign_header(sign_url, 'post', body, http_local.header),
                              json=body).json()
         if resp['code'] != 0:
-            msg = f'[{i.get("gameName")}],角色[{i.get("nickName")}({i.get("channelName")})] 签到失败！原因：{resp.get("message")}'
+            msg = f'[{i.get("gameName")}]\n  - 角色[{i.get("nickName")}({i.get("channelName")})] 签到失败！原因：{resp.get("message")}'
             print(msg)
             logs_out.append(msg)
             continue
         awards = resp['data']['awards']
         for j in awards:
             res = j['resource']
-            msg = f'[{i.get("gameName")}],角色{i.get("nickName")}({i.get("channelName")}) 签到成功，获得了{res["name"]}×{j.get("count") or 1}'
+            msg = f'[{i.get("gameName")}]\n  - 角色{i.get("nickName")}({i.get("channelName")}) 签到成功，获得了{res["name"]}×{j.get("count") or 1}'
             print(msg)
             logs_out.append(msg)
     for j in zmd_characters:
@@ -361,7 +361,7 @@ def do_sign(cred_resp):
         resp = requests.post(sign_zmd_url, headers=get_sign_header(sign_zmd_url, 'post', body, http_local.header),
                              json=body).json()
         if resp['code'] != 0:
-            msg = f'[{game_name}],角色[{nick_name}({channel_name})]签到失败！原因：{resp.get("message")}'
+            msg = f'[{game_name}]\n  - 角色[{nick_name}({channel_name})]签到失败！原因：{resp.get("message")}'
             print(msg)
             logs_out.append(msg)
             continue
@@ -369,7 +369,7 @@ def do_sign(cred_resp):
         for k in awardIds:
             awardId = k['id']
             awardItem = resp['data']['resourceInfoMap'][awardId]
-            msg = f'[{game_name}],角色[{nick_name}({channel_name})]签到成功，获得了{awardItem["name"]}×{awardItem["count"] or 1}'
+            msg = f'[{game_name}]\n  - 角色[{nick_name}({channel_name})]签到成功，获得了{awardItem["name"]}×{awardItem["count"] or 1}'
             print(msg)
             logs_out.append(msg)
 
@@ -448,11 +448,13 @@ def start():
         try:
             logs_out = do_sign(get_cred_by_token(i))
             all_logs.extend(logs_out)
+            all_logs.append("\n")
         except Exception as ex:
             err = f'签到失败，原因：{str(ex)}'
             print(err)
             logging.error('', exc_info=ex)
             all_logs.append(err)
+            all_logs.append("\n")
 
     print("签到完成！")
 
