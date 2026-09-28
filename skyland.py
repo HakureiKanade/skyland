@@ -327,7 +327,7 @@ def do_sign(cred_resp):
     logging.info(zmd_characters)
 
     logs_out = []  # 新增：用于 Server酱³ 的汇总文本
-    logs_out.append(f'[{ark_characters[0].get("gameName")}]')
+    logs_out.append(f'- **[{ark_characters[0].get("gameName")}]**')
     for i in ark_characters:
         body = {
             'gameId': 1,
@@ -337,18 +337,18 @@ def do_sign(cred_resp):
         resp = requests.post(sign_url, headers=get_sign_header(sign_url, 'post', body, http_local.header),
                              json=body).json()
         if resp['code'] != 0:
-            msg = f'\n- 角色[{i.get("nickName")}({i.get("channelName")})] 签到失败！  \n原因：{resp.get("message")}'
+            msg = f'\n-  角色[{i.get("nickName")}({i.get("channelName")})] 签到失败!<br>\t原因：{resp.get("message")}'
             print(msg)
             logs_out.append(msg)
             continue
         awards = resp['data']['awards']
         for j in awards:
             res = j['resource']
-            msg = f'\n- 角色{i.get("nickName")}({i.get("channelName")}) 签到成功!  \n获得了{res["name"]}×{j.get("count") or 1}'
+            msg = f'\n-  角色{i.get("nickName")}({i.get("channelName")}) 签到成功!<br>\t获得了{res["name"]}×{j.get("count") or 1}'
             print(msg)
             logs_out.append(msg)
     logs_out.append("\n")
-    logs_out.append(f'\n\n[{zmd_characters[0].get("gameName")}]')
+    logs_out.append(f'\n- **[{zmd_characters[0].get("gameName")}]**')
     for j in zmd_characters:
         zmd_role = j.get("defaultRole")
         nick_name = zmd_role.get("nickname")
@@ -364,7 +364,7 @@ def do_sign(cred_resp):
         resp = requests.post(sign_zmd_url, headers=get_sign_header(sign_zmd_url, 'post', body, http_local.header),
                              json=body).json()
         if resp['code'] != 0:
-            msg = f'\n- 角色[{nick_name}({channel_name})]签到失败！  \n原因：{resp.get("message")}'
+            msg = f'\n-  角色[{nick_name}({channel_name})]签到失败!<br>\t原因：{resp.get("message")}'
             print(msg)
             logs_out.append(msg)
             continue
@@ -372,7 +372,7 @@ def do_sign(cred_resp):
         for k in awardIds:
             awardId = k['id']
             awardItem = resp['data']['resourceInfoMap'][awardId]
-            msg = f'\n- 角色[{nick_name}({channel_name})]签到成功!  \n获得了{awardItem["name"]}×{awardItem["count"] or 1}'
+            msg = f'\n-  角色[{nick_name}({channel_name})]签到成功!<br>\t获得了{awardItem["name"]}×{awardItem["count"] or 1}'
             print(msg)
             logs_out.append(msg)
 
