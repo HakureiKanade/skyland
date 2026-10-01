@@ -344,7 +344,7 @@ def do_sign(cred_resp):
         awards = resp['data']['awards']
         for j in awards:
             res = j['resource']
-            msg = f'\n- 角色{i.get("nickName")}({i.get("channelName")}) 签到成功!\t获得了{res["name"]}×{j.get("count") or 1}'
+            msg = f'\n- 角色{i.get("nickName")}({i.get("channelName")}) 签到成功!\t获得了[{res["name"]}×{j.get("count") or 1}]'
             print(msg)
             logs_out.append(msg)
     logs_out.append("\n")
@@ -372,7 +372,7 @@ def do_sign(cred_resp):
         for k in awardIds:
             awardId = k['id']
             awardItem = resp['data']['resourceInfoMap'][awardId]
-            msg = f'\n- 角色[{nick_name}({channel_name})]签到成功!\t获得了{awardItem["name"]}×{awardItem["count"] or 1}'
+            msg = f'\n- 角色[{nick_name}({channel_name})]签到成功!\t获得了[{awardItem["name"]}×{awardItem["count"] or 1}]'
             print(msg)
             logs_out.append(msg)
 
